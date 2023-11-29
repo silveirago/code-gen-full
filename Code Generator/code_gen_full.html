@@ -1,0 +1,737 @@
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Arduino DIY MIDI Controller Configuration</title>
+<link href="https://fonts.googleapis.com/css2?family=OCR-A&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=OCR-A:wght@300&amp;display=swap" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.26.0/themes/prism.min.css" rel="stylesheet">
+<style>
+  body {
+    background-color: #000;
+    position: relative;
+     max-width: 80%;
+  margin: 0 auto;
+    
+  }
+  
+  /* Update the form max-width for better responsiveness */
+form {
+  max-width: 100%;
+}
+
+  body::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url('https://storage.googleapis.com/msgsndr/VWW8bj7SgwIOUgtvGEfH/media/63ef97d91e60ae0d379f0d9b.png') center center no-repeat;
+    background-size: cover;
+    z-index: -1;
+    opacity: 0.2;
+    /* Adjust the opacity as needed */
+  }
+
+  /* Rest of your existing styles */
+  /* Styling for h1 tag */
+  h1 {
+    text-align: center;
+    margin-top: 3rem;
+    font-size: 36px !important;
+    font-family: 'OCR-A', monospace;
+    color: purple !important;
+    font-weight: 300;
+    text-shadow: 0 0 10px rgba(128, 0, 128, 0.5) !important;
+  }
+
+  /* Styling for body, headings, labels, inputs, selects, buttons, pre, and code tags */
+  body,
+  h2,
+  h3,
+  label,
+  input,
+  select,
+  button,
+  pre,
+  code {
+    font-family: 'Montserrat', sans-serif;
+    line-height: 1.5;
+  }
+
+  /* Styling for h1 tag */
+  h1 {
+    text-align: center;
+    margin-top: 3rem;
+    font-size: 4rem;
+    color: #fff;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+  }
+
+  /* Styling for h3 tag */
+  h3 {
+    text-align: left;
+    margin-top: 0;
+    margin-bottom: 0;
+    font-size: 27px;
+    color: #fff;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+  }
+
+  /* Styling for form tag */
+  form {
+    max-width: 600px;
+    margin: 3rem auto;
+    padding: 2rem;
+    border: 2px solid #fff;
+    border-radius: 10px;
+    background-color: rgba(255, 255, 255, 0.1);
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+  }
+
+  /* Styling for label tags */
+  label {
+    display: block;
+    font-size: 1.2rem;
+    color: #fff;
+    margin-bottom: 0.5rem;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+  }
+
+  /* Styling for select tag */
+  select {
+    width: 100%;
+    padding: 0.5rem;
+    border: none;
+    border-radius: 5px;
+    background-color: rgba(255, 255, 255, 0.1);
+    color: #fff;
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+  }
+
+  /* Styling for checkbox and radio input tags */
+  input[type="checkbox"],
+  input[type="radio"] {
+    display: inline-block;
+    margin-right: 0.5rem;
+  }
+
+  /* Styling for label tags that are next to checkbox and radio input tags */
+  input[type="checkbox"]+label,
+  input[type="radio"]+label {
+    display: inline-block;
+    font-size: 1.2rem;
+    color: #fff;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+  }
+
+  /* Styling for submit button */
+  button[type="submit"] {
+    display: block;
+    margin-top: 2rem;
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 5px;
+    background-color: #fff;
+    color: #000;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  }
+
+  /* Hover styling for submit button */
+  button[type="submit"]:hover {
+    background-color: #000;
+    color: #fff;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+  }
+
+  /* Styling for pre tag */
+  pre {
+    max-width: 100% !important;
+    width: calc(100% - 5px) !important;
+    margin: 3rem auto;
+    padding: 2rem;
+    border: 2px solid #fff;
+    border-radius: 10px;
+    background-color: rgba(255, 255, 255, 0.1);
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+  }
+
+  /* Styling for code tag */
+  code {
+    font-size: 1.2rem;
+    color: #fff;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+  }
+
+  /* Syntax highlighting styles */
+  .token.comment,
+  .token.prolog,
+  .token.doctype,
+  .token.cdata {
+    color: #999;
+  }
+
+  .token.punctuation {
+    color: #ccc;
+  }
+
+  .namespace {
+    opacity: .7;
+  }
+
+  .token.property,
+  .token.tag,
+  .token.constant,
+  .token.symbol,
+  .token.deleted {
+    color: #f77;
+  }
+
+  .token.boolean,
+  .token.number {
+    color: #77f;
+  }
+
+  .token.selector,
+  .token.attr-name,
+  .token.string,
+  .token.char,
+  .token.builtin,
+  .token.inserted {
+    color: #0f0;
+  }
+
+  .token.operator,
+  .token.entity,
+  .token.url,
+  .language-css .token.string,
+  .style .token.string {
+    color: #a67f59;
+    background: rgba(255, 255, 255, 0.1);
+    text-shadow: 0 0 10px rgba(166, 127, 89, 0.3);
+  }
+
+  .token.atrule,
+  .token.attr-value,
+  .token.keyword {
+    color: #f7b;
+  }
+
+  .token.function,
+  .token.class-name {
+    color: #0ff;
+  }
+
+  .token.regex,
+  .token.important,
+  .token.variable {
+    color: #f55;
+  }
+
+  .token.important,
+  .token.bold {
+    font-weight: bold;
+  }
+
+  .token.italic {
+    font-style: italic;
+  }
+
+  .token.entity {
+    cursor: help;
+  }
+
+  /* Styling for code wrapper */
+  .code-wrapper {
+    display: flex;
+    justify-content: center;
+    position: relative;
+  }
+
+  /* Styling for copy button */
+  #copy-btn {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    padding: 0.5rem;
+    border: none;
+    border-radius: 5px;
+    background-color: #fff;
+    color: #000;
+    font-size: 1rem;
+    cursor: pointer;
+    z-index: 1;
+  }
+
+  /* Styling for download button */
+  #download-btn {
+    position: absolute;
+    top: 1rem;
+    right: 4rem;
+    padding: 0.5rem;
+    border: none;
+    border-radius: 5px;
+    background-color: #fff;
+    color: #000;
+    font-size: 1rem;
+    cursor: pointer;
+    z-index: 1;
+  }
+
+  /* Styling for download libraries button */
+  #download-lib {
+    position: absolute;
+    top: 1rem;
+    right: 15rem;
+    padding: 0.5rem;
+    border: none;
+    border-radius: 5px;
+    background-color: #fff;
+    color: #000;
+    font-size: 1rem;
+    cursor: pointer;
+    z-index: 1;
+  }
+
+  /* Styling for tutorial link */
+  .tutorial-link {
+    font-family: 'OCR-A', monospace;
+    font-size: 14px;
+    text-align: left;
+    color: #fff;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+    line-height: 1.5;
+  }
+</style>
+<!-- HTML content -->
+<div class="overlay"></div>
+<h1>Arduino DIY MIDI Controller Configuration</h1>
+<p class="tutorial-link">
+  <br>For a complete tutorial visit: <a href="https://go.musiconerd.com/diy-midi-controller-workshop" target="_blank">https://go.musiconerd.com/diy-midi-controller-workshop</a>
+  <br>by Gustavo Silveira, a.k.a. the Nerd Musician.
+</p>
+<form id="arduino-config">
+  <label for="board-type">Choose a board:</label>
+  <select id="board-type" name="board-type">
+      <option value="DEBUG">Debug (Serial Monitor)</option>
+      <option value="ATMEGA32U4">Arduino Micro, Pro Micro, Leonardo (ATmega32U4)</option>
+    <option value="ATMEGA328">Arduino Uno, Mega, Nano (ATmega328)</option>
+    
+    <option value="TEENSY">Teensy LC, Teensy 3.x, Teensy 4.x</option>
+    <option value="BLEMIDI">BLE MIDI (ESP32)</option>
+    
+  </select>
+  <br>
+  <br>
+  <label>Are you using?</label>
+  <br>
+  <input type="checkbox" id="use-mux" name="use-mux">
+  <label for="use-mux">Multiplexers</label>
+  <br>
+  <input type="checkbox" id="use-buttons" name="use-buttons">
+  <label for="use-buttons">Buttons</label>
+  <br>
+  <input type="checkbox" id="use-pots" name="use-pots">
+  <label for="use-pots">Potentiometers</label>
+  <br>
+  <input type="checkbox" id="use-encoders" name="use-encoders">
+  <label for="use-encoders">Encoders</label>
+  <br>
+  <input type="checkbox" id="use-mackie" name="use-mackie">
+  <label for="use-mackie">The MACKIE protocol</label>
+  <br>
+  
+  
+    <input type="checkbox" id="use-midi-din" name="use-midi-din">
+  <label for="use-midi-din">MIDI DIN connector</label>
+  <br>
+  <br>
+  
+  <hr>
+  <br>
+  <div id="mux-section" style="display: none;">
+    <h3>Multiplexers</h3>
+    <br>
+    <label for="num-mux">How many multiplexers are you using?</label>
+    <input type="number" id="num-mux" name="num-mux" min="0">
+    <br>
+    <br>
+    <label for="mux-xPin">Which X (signal) pins are you using for the multiplexer? (comma-separated)</label>
+    <input type="text" id="mux-xPin" name="mux-xPin">
+    <br>
+    <br>
+    <label for="mux-sPin">Which S pins are you using for the multiplexer? Put the pins for S0, S1, S2, and S3. (comma-separated)</label>
+    <input type="text" id="mux-sPin" name="mux-sPin">
+    <br>
+    <br>
+    <hr>
+    <br>
+  </div>
+  <div id="buttons-section" style="display: none;">
+    <h3>Buttons</h3>
+    <br>
+
+      <label for="numTotal-buttons">Total numbers of buttons: Number of buttons in the Arduino + number of buttons on multiplexer 1 + number of buttons on multiplexer 2...</label>
+      <input type="number" id="numTotal-buttons" name="numTotal-buttons" min="0">
+      <br>
+      <br>
+    
+    <label for="num-buttons">Number of buttons connected straight to the Arduino:</label>
+    <input type="number" id="num-buttons" name="num-buttons" min="0">
+    <br>
+    <br>
+    <label for="button-pins">Pins of each button connected straight to the Arduino: (comma-separated)</label>
+    <input type="text" id="button-pins" name="button-pins">
+    <br>
+    <br>
+    <div id="mux-buttons-section" style="display: none;">
+      <label for="num-muxButtons">Number of buttons in each mux (in order): (comma-separated)</label>
+      <input type="number" id="num-muxButtons" name="num-muxButtons" min="0">
+      <br>
+      <br>
+      <label for="mux-buttonPin">To which pins of the multiplexer(s) are the buttons connected? Put the pins of each mux inside curly braces, like this: {2, 3, 4, 5, 6}, {3, 4, 5}</label>
+      <input type="text" id="mux-buttonPin" name="mux-buttonPin">
+      <br>
+      <br>
+    </div>
+    <label for="button-msg-types">Message Types for Buttons (NN, CC, T, PC): (comma-separated)</label>
+    <input type="text" id="button-msg-types" name="button-msg-types">
+    <br>
+    <br>
+    <label for="buttons-msg-val">Message Values for Buttons (in order):</label>
+    <input type="text" id="buttons-msg-val" name="buttons-msg-val">
+    <br>
+    <br>
+    
+    <label for="button-midi-ch">MIDI Channel for Buttons:</label>
+<input type="number" id="button-midi-ch" name="button-midi-ch" min="1" max="16">
+ <br>
+    <br>
+
+
+    <hr>
+    <br>
+  </div>
+  <div id="pots-section" style="display: none;">
+    <h3>Potentiometers</h3>
+    <br>
+    
+      <label for="numTotal-pots">Total numbers of pots: Number of pots in the Arduino + number of pots on multiplexer 1 + number of pots on multiplexer 2...</label>
+      <input type="number" id="numTotal-pots" name="numTotal-pots" min="0">
+      <br>
+      <br>
+ 
+    <label for="num-pots">Number of pots connected straight to the Arduino:</label>
+    <input type="number" id="num-pots" name="num-pots" min="0">
+    <br>
+    <br>
+    <label for="pot-pins">Pins of each pot connected straight to the Arduino: Like A0, A1, A2. Don't use "A" if you are using ESP32, only the number. (comma-separated)</label>
+    <input type="text" id="pot-pins" name="pot-pins">
+    <br>
+    <br>
+    <div id="muxPots-section" style="display: none;">
+      <label for="num-muxPots">Number of pots in each multiplexer (in order): (comma-separated)</label>
+      <input type="text" id="num-muxPots" name="num-muxPots">
+      <br>
+      <br>
+      <label for="mux-potPin">To which pins of the multiplexer(s) are the pots connected? Put the pins of each mux inside curly braces, like this: {2, 3, 4, 5, 6}, {3, 4, 5}</label>
+      <input type="text" id="mux-potPin" name="mux-potPin">
+      <br>
+      <br>
+    </div>
+    <label for="pot-msg-types">Which message types for Potentiometers (CC, PB) do you want to send: (comma-separated)</label>
+    <input type="text" id="pot-msg-types" name="pot-msg-types">
+    <br>
+    <br>
+    <label for="pot-msg-values">Message Values for Potentiometers (CC, PB, NUMBER, MACKIE): (comma-separated)</label>
+    <input type="text" id="pot-msg-values" name="pot-msg-values">
+    <br>
+    
+    <br>
+    
+    <label for="pot-midi-ch">MIDI Channel for Potentiometers:</label>
+<input type="number" id="pot-midi-ch" name="pot-midi-ch" min="1" max="16">
+<br>
+    <br>
+
+    <input type="checkbox" id="use-high-res-pots" name="use-high-res-pots">
+    <label for="use-high-res-pots">Use high-resolution potentiometers</label>
+    <br>
+    <br>
+    <hr>
+    <br>
+  </div>
+  <div id="encoders-section" style="display: none;">
+    <h3>Encoders</h3>
+    <br>
+    <label for="num-encoders">How many encoders are you using?</label>
+    <input type="number" id="num-encoders" name="num-encoders" min="0">
+    <br>
+    <br>
+    <label for="encoders-pins">Which pins are you using for the encoders? (comma-separated, like this "{2,3},{4,5}".</label>
+    <input type="text" id="encoders-pins" name="encoder-pins">
+    <br>
+    <br>
+    <label for="encoder-msg-values">Message Values for Encoders (CC, MACKIE): (comma-separated)</label>
+  <input type="text" id="encoder-msg-values" name="encoder-msg-values">
+  <br>
+  <br>
+  
+  <label for="encoder-midi-ch">MIDI Channel for Encoders:</label>
+<input type="number" id="encoder-midi-ch" name="encoder-midi-ch" min="1" max="16">
+ <br>
+  <br>
+
+  <label for="encoder-sensitivity">
+      Encoder Sensitivity.
+<br>
+Choose between a (float) between than 0 (0.2 for example) and 4.
+<br>
+Increase the number to have more readings per revolution.
+<br>
+"1" will give you 4 readings per click, it will increament in 4, like 4, 8, 12...
+<br>
+"4" will give you 1 reading per click, like 1, 2, 3, 4...
+<br>
+So, "4" will give the most precise reading.
+</label>
+<input type="text" id="encoder-sensitivity" name="encoder-sensitivity">
+<br>
+<br>
+
+
+    <input type="checkbox" id="use-traktor-encoders" name="use-traktor-encoders">
+    <label for="use-traktor-encoders">Check if using encoders with Traktor</label>
+    <br>
+    <input type="checkbox" id="use-high-res-encoders" name="use-high-res-encoders">
+<label for="use-high-res-encoders">Use high-resolution encoders</label>
+<br>
+<br>
+
+    <br>
+    <hr>
+    <br>
+  </div>
+  <button type="submit">Submit</button>
+</form>
+<h2>Modified Code</h2>
+<div class="code-wrapper">
+  <button id="copy-btn" title="Copy to clipboard">Copy</button>
+  <button id="download-btn" title="Download Code" style="margin-right: 20px;"> Download Code</button>
+  <button id="download-lib" title="Download Lib" style="margin-right: 20;" onclick="window.open('https://github.com/silveirago/code-gen-basic-libs')"> Download Libraries</button>
+  
+  
+  <pre><code id="file-content" class="language-arduino"></code></pre>
+
+</div>
+<!-- JavaScript code -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.26.0/prism.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.26.0/components/prism-c.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.26.0/components/prism-cpp.min.js"></script>
+<script>
+  // Add Arduino language definition to Prism
+  Prism.languages.arduino = Prism.languages.extend('cpp', {});
+  Prism.languages.insertBefore('arduino', 'keyword', {
+    'arduino-keyword': /\b(digitalRead|digitalWrite|analogRead|analogWrite|pinMode|delay|millis|micros|delayMicroseconds|map|random|randomSeed|Serial|begin|end|print|println|available|read|write|flush|setTimeout|SoftwareSerial)\b/,
+  });
+  // Show/hide the multiplexer section based on checkbox change event
+  document.getElementById('use-mux').addEventListener('change', (event) => {
+    document.getElementById('mux-section').style.display = event.target.checked ? 'block' : 'none';
+  });
+  // Show/hide the buttons section based on checkbox change event
+  document.getElementById('use-buttons').addEventListener('change', (event) => {
+    document.getElementById('buttons-section').style.display = event.target.checked ? 'block' : 'none';
+  });
+  // Show/hide the potentiometers section based on checkbox change event
+  document.getElementById('use-pots').addEventListener('change', (event) => {
+    document.getElementById('pots-section').style.display = event.target.checked ? 'block' : 'none';
+  });
+  // Show/hide the encoders section based on checkbox change event
+  document.getElementById('use-encoders').addEventListener('change', (event) => {
+    document.getElementById('encoders-section').style.display = event.target.checked ? 'block' : 'none';
+  });
+  // Show/hide the total buttons section based on checkbox change event
+  document.getElementById('use-mux').addEventListener('change', (event) => {
+
+    const muxButtonsSection = document.getElementById('mux-buttons-section');
+    muxButtonsSection.style.display = event.target.checked ? 'block' : 'none';
+  });
+
+  // Show/hide the multiplexer pots section based on checkbox change event
+  document.getElementById('use-mux').addEventListener('change', (event) => {
+    const muxPotsSection = document.getElementById('muxPots-section');
+    muxPotsSection.style.display = event.target.checked ? 'block' : 'none';
+  });
+  // Handle form submit event
+  document.getElementById('arduino-config').addEventListener('submit', async (event) => {
+    event.preventDefault();
+    // Get form data
+    const formData = new FormData(event.target);
+    const boardType = formData.get('board-type');
+    const useMux = formData.get('use-mux') === 'on';
+    const numMux = formData.get('num-mux') || '0';
+    const muxXPins = formData.get('mux-xPin') || '';
+    const muxSPin = formData.get('mux-sPin') || '';
+    const numMuxPots = formData.get('num-muxPots') || '0';
+    const muxPotPin = formData.get('mux-potPin') || '';
+    const numMuxButtons = formData.get('num-muxButtons') || '0';
+    const muxButtonPin = formData.get('mux-buttonPin') || '';
+    const useButtons = formData.get('use-buttons') === 'on';
+    const numButtons = formData.get('num-buttons') || '0';
+    const numTotalButtons = formData.get('numTotal-buttons') || '0';
+    const buttonPins = formData.get('button-pins') || '';
+    const buttonMsgTypes = formData.get('button-msg-types') || '';
+    const buttonsMsgValues = formData.get('buttons-msg-val') || '';
+    const usePots = formData.get('use-pots') === 'on';
+    const numPots = formData.get('num-pots') || '0';
+    const numTotalPots = formData.get('numTotal-pots') || '0';
+    const potPins = formData.get('pot-pins') || '';
+    const potMsgTypes = formData.get('pot-msg-types') || '';
+    const potMsgValues = formData.get('pot-msg-values') || '';
+    const useHighResPotsCheckbox = document.getElementById('use-high-res-pots');
+    const useHighResPots = useHighResPotsCheckbox.checked;
+    const useEncoders = formData.get('use-encoders') === 'on';
+    const numEncoders = formData.get('num-encoders') || '0';
+    const encoderPins = formData.get('encoder-pins') || '';
+    const encoderMsgValues = formData.get('encoder-msg-values') || '';
+    const encoderSensitivity = formData.get('encoder-sensitivity') || '0.1';
+    const useHighResEncodersCheckbox = document.getElementById('use-high-res-encoders');
+  const useHighResEncoders = useHighResEncodersCheckbox.checked;
+    const useTraktorEncoders = formData.get('use-traktor-encoders') === 'on';
+    
+    const buttonMidiCh = formData.get('button-midi-ch') || '1';
+const potMidiCh = formData.get('pot-midi-ch') || '1';
+const encoderMidiCh = formData.get('encoder-midi-ch') || '1';
+
+const useMackieProtocol = formData.get('use-mackie') === 'on';
+
+const useMidiDIN = formData.get('use-midi-din') === 'on';
+
+    // Fetch code template
+    const response = await fetch('https://storage.googleapis.com/msgsndr/VWW8bj7SgwIOUgtvGEfH/media/6566429c85cabc2b80d825e5.txt');
+    const data = await response.text();
+    // Modify code template based on form data
+    let modifiedData = data.replace(/#define DEBUG/, `#define ${boardType}`);
+    if (useMux) {
+      modifiedData = modifiedData.replace('//#define USING_MUX', '#define USING_MUX');
+      modifiedData = modifiedData.replace('mux-num', `${numMux}`);
+      modifiedData = modifiedData.replace('mux-xPin', `${muxXPins}`);
+      modifiedData = modifiedData.replace('mux-sPin', `${muxSPin}`);
+      modifiedData = modifiedData.replace('num-muxPots', `${numMuxPots}`);
+      modifiedData = modifiedData.replace('mux-potPin', `${muxPotPin}`);
+      modifiedData = modifiedData.replace('num-muxButtons', `${numMuxButtons}`);
+      modifiedData = modifiedData.replace('mux-buttonPin', `${muxButtonPin}`);
+    } else {
+      modifiedData = modifiedData.replace('mux-num', '0');
+      modifiedData = modifiedData.replace('mux-xPin', '');
+      modifiedData = modifiedData.replace('mux-sPin', '');
+      modifiedData = modifiedData.replace('num-muxPots', '0');
+      modifiedData = modifiedData.replace('mux-potPin', '');
+      modifiedData = modifiedData.replace('num-muxButtons', '0');
+      modifiedData = modifiedData.replace('mux-buttonPin', '');
+      
+    }
+    if (useButtons) {
+      modifiedData = modifiedData.replace('//#define USING_BUTTONS', '#define USING_BUTTONS');
+      modifiedData = modifiedData.replace('button-num', `${numButtons}`);
+      modifiedData = modifiedData.replace('button-pin', `${buttonPins}`);
+      modifiedData = modifiedData.replace('button-total', `${numTotalButtons}`);
+      modifiedData = modifiedData.replace('button-msg-type', `${buttonMsgTypes}`);
+      modifiedData = modifiedData.replace('buttons-msg-val', `${buttonsMsgValues}`);
+      modifiedData = modifiedData.replace('button-midi-ch', `${buttonMidiCh}`);
+      
+    } else {
+      modifiedData = modifiedData.replace('button-num', `0`);
+      modifiedData = modifiedData.replace('button-pin', ``);
+      modifiedData = modifiedData.replace('button-total', `0`);
+      modifiedData = modifiedData.replace('button-midi-ch', `1`);
+    }
+    if (usePots) {
+      modifiedData = modifiedData.replace('//#define USING_POTENTIOMETERS', '#define USING_POTENTIOMETERS');
+      modifiedData = modifiedData.replace('pot-num', `${numPots}`);
+      modifiedData = modifiedData.replace('pot-pin', `${potPins}`);
+      modifiedData = modifiedData.replace('pot-total', `${numTotalPots}`);
+      modifiedData = modifiedData.replace('pot-msg-type', `${potMsgTypes}`);
+      modifiedData = modifiedData.replace('pot-msg-val', `${potMsgValues}`);
+      modifiedData = modifiedData.replace('pot-midi-ch', `${potMidiCh}`);
+    } else {
+      modifiedData = modifiedData.replace('pot-num', `0`);
+      modifiedData = modifiedData.replace('pot-pin', ``);
+      modifiedData = modifiedData.replace('pots-total', `0`);
+      modifiedData = modifiedData.replace('pot-msg-type', `CC`);
+      modifiedData = modifiedData.replace('pot-msg-val', ``);
+      modifiedData = modifiedData.replace('pot-midi-ch', `1`);
+    }
+    // Modify code template based on form data
+    if (useHighResPots) {
+      modifiedData = modifiedData.replace('//#define USING_HIGH_RES_FADER', '#define USING_HIGH_RES_FADER');
+    }
+    if (useEncoders) {
+      modifiedData = modifiedData.replace('//#define USING_ENCODER', '#define USING_ENCODER');
+      modifiedData = modifiedData.replace('encoder-num', `${numEncoders}`);
+      modifiedData = modifiedData.replace('encoder-pin', `${encoderPins}`);
+      modifiedData = modifiedData.replace('encoder-msg-val', `${encoderMsgValues}`);
+      modifiedData = modifiedData.replace('encoder-sensitivity', `${encoderSensitivity}`);
+      modifiedData = modifiedData.replace('encoder-midi-ch', `${encoderMidiCh}`);
+    } else {
+      modifiedData = modifiedData.replace('encoder-num', `0`);
+      modifiedData = modifiedData.replace('encoder-pin', ``);
+      modifiedData = modifiedData.replace('encoder-msg-val', ``);
+      modifiedData = modifiedData.replace('encoder-sensitivity', `0.1`);
+      modifiedData = modifiedData.replace('encoder-midi-ch', `1`);
+    }
+    if (useTraktorEncoders) {
+      modifiedData = modifiedData.replace('//#define TRAKTOR', '#define TRAKTOR');
+    }
+      if (useHighResEncoders) {
+    modifiedData = modifiedData.replace('//#define USING_HIGH_RES_ENC', '#define USING_HIGH_RES_ENC');
+  }
+  
+  // Replace placeholder for MACKIE protocol
+if (useMackieProtocol) {
+  modifiedData = modifiedData.replace('//#define USING_MACKIE', '#define USING_MACKIE');
+} 
+
+if (useMidiDIN) {
+  modifiedData = modifiedData.replace('//#define MIDI_DIN', '#define MIDI_DIN');
+} 
+
+    // Set modified code content and highlight it
+    document.getElementById('file-content').textContent = modifiedData;
+    Prism.highlightElement(document.getElementById('file-content'));
+  });
+
+  function copyToClipboard(text) {
+    const textarea = document.createElement('textarea');
+    textarea.value = text;
+    textarea.style.position = 'absolute';
+    textarea.style.left = '-9999px';
+    document.body.appendChild(textarea);
+    textarea.select();
+    document.execCommand('copy');
+    document.body.removeChild(textarea);
+  }
+  // Copy button click event handler
+  document.getElementById('copy-btn').addEventListener('click', () => {
+    const codeText = document.getElementById('file-content').textContent;
+    copyToClipboard(codeText);
+    alert('Code copied to clipboard!');
+  });
+  // Download code button click event handler
+  function downloadCode() {
+    const codeText = document.getElementById('file-content').textContent;
+    const blob = new Blob([codeText], {
+      type: 'text/plain'
+    });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = 'DIY_MIDI_Controller.ino';
+    link.click();
+  }
+  document.getElementById('download-btn').addEventListener('click', downloadCode);
+</script>
