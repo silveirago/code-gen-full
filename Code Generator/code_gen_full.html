@@ -8,7 +8,7 @@
   body {
     background-color: #000;
     position: relative;
-     max-width: 80%;
+     max-width: 100%;
   margin: 0 auto;
     
   }
@@ -522,7 +522,7 @@ So, "4" will give the most precise reading.
 <div class="code-wrapper">
   <button id="copy-btn" title="Copy to clipboard">Copy</button>
   <button id="download-btn" title="Download Code" style="margin-right: 20px;"> Download Code</button>
-  <button id="download-lib" title="Download Lib" style="margin-right: 20;" onclick="window.open('https://github.com/silveirago/code-gen-basic-libs')"> Download Libraries</button>
+  <button id="download-lib" title="Download Lib" style="margin-right: 20;" onclick="window.open('https://github.com/silveirago/code-gen-full')"> Download Files</button>
   
   
   <pre><code id="file-content" class="language-arduino"></code></pre>
@@ -612,7 +612,7 @@ const useMackieProtocol = formData.get('use-mackie') === 'on';
 const useMidiDIN = formData.get('use-midi-din') === 'on';
 
     // Fetch code template
-    const response = await fetch('https://storage.googleapis.com/msgsndr/VWW8bj7SgwIOUgtvGEfH/media/6566429c85cabc2b80d825e5.txt');
+    const response = await fetch('https://storage.googleapis.com/msgsndr/VWW8bj7SgwIOUgtvGEfH/media/65679c3093545254fd7c1aec.txt');
     const data = await response.text();
     // Modify code template based on form data
     let modifiedData = data.replace(/#define DEBUG/, `#define ${boardType}`);
@@ -730,7 +730,7 @@ if (useMidiDIN) {
     const url = URL.createObjectURL(blob);
     const link = document.createElement('a');
     link.href = url;
-    link.download = 'DIY_MIDI_Controller.ino';
+    link.download = '_DIY_MIDI_Controller_en.ino';
     link.click();
   }
   document.getElementById('download-btn').addEventListener('click', downloadCode);
